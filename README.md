@@ -6,6 +6,8 @@
 
 _Correo de contacto_ : dcasiano@ucm.es
 
+_Página web del juego_ : https://dcasiano.github.io/jetpac/
+
 <table>
   <tr>
     <td colspan = "2"> Resumen </td>
