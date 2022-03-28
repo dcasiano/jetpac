@@ -50,12 +50,13 @@ El juego es una adaptación a navegador del juego Jetpac para ZX Spectrum. En é
     2.3 [Estética](#Estética)  
 
 3. [Menús y modos de juegos](#Menús)  
-    3.1 [Configuración](#Configuración)  
-    3.2 [Interfaz y control](#Interfaz)  
+    3.1 [Interfaz y control](#Interfaz)  
 
 4. [Contenido](#Contenido)  
     4.1 [Historia](#Historia)  
-    4.2 [Personajes](#Personajes)  
+    4.2 [Niveles](#Niveles)  
+    4.3 [Enemigos](#Enemigos)  
+    4.4 [Objetos](#Objetos)
 
 5. [Referencias](#Referencias)
 
@@ -72,4 +73,81 @@ El jugador comienza en un escenario 2D con diferentes plataformas y un cohete. A
 ####  <a name = "Mecánicas-personaje"> Mecánicas del personaje</a>
 
 El movimiento del personaje hacia izquierda y derecha se realiza con las flechas correspondientes de los cursores. Con el cursor de flecha arriba, el jugador se propulsa verticalmente. Cuando se deja de pulsar, cae por efecto de la gravedad. Con la barra espaciadora se dispara un proyectil en la dirección que esté mirando el jugador. El proyectil elimina al primer enemigo con el que colisione y, tras esto, desaparece.
+
 El jugador tendrá inicialmente 3 vidas. Cada vez que un enemigo impacta con el jugador le restará una vida. Tras esto, el jugador reaparecerá en la posición inicial. Cuando el contador de vidas llegue a 0, el siguiente impacto enemigo supondrá el final de la partida.
+
+####  <a name = "Mecánicas-escenario"> Mecánicas de escenario</a>
+
+El escenario está compuesto por el suelo, un determinado número de plataformas, el cohete y las unidades de Fuel. El jugador colisiona con el suelo y las plataformas, mientras que atraviesa el cohete. Cuando pasa por encima del Fuel, lo agarra y lo lleva consigo, hasta que llega al cohete y desaparece, incrementando en uno las unidades de combustible recargadas. Si no se ha llenado todavía el depósito, aparecerá otra unidad de Fuel en un punto aleatorio del escenario. El Fuel también se ve afectado por la gravedad.
+
+El escenario es horizontalmente toroidal, de manera que cuando el jugador o los enemigos llegan al extremo derecho vuelven a aparecer en el izquierdo, y viceversa. No hay límite superior vertical (el jugador puede salirse por la parte superior del escenario, pero no se le verá en pantalla).
+
+####  <a name = "Controles"> Controles</a>
+
+En el juego únicamente es controlable el jugador. Cuando se ha llenado el depósito de combustible, se pierde el control del jugador y la nave comienza a ascender automáticamente.
+
+####  <a name = "Cámara"> Cámara</a>
+
+La cámara es fija y muestra todo el escenario de juego.
+
+###  <a name = "Dinámica"> 2.2 Dinámica
+  
+El objetivo es llenar el depósito de combustible del cohete y escapar del planeta. Si el jugador lleva al cohete el número necesario de unidades de Fuel, habrá ganado. Si la vida del jugador llega a 0 y es impactado nuevamente por un ataque enemigo, habrá perdido.
+  
+La estrategia típica esperada es tratar de recoger y transportar el combustible por el mapa esquivando a los diferentes enemigos, haciendo uso del disparo cuando sea necesario.
+
+###  <a name = "Estética"> 2.3 Estética</a>
+  
+  El juego tiene una estética pixel art. Se utilizarán los sprites del juego original. Habrá animaciones para las acciones de andar y volar del jugador, para ciertos enemigos, para el vuelo del cohete y para las explosiones, las cuales tendrán lugar cuando el jugador elimine un enemigo.
+
+##  <a name = "Menús"> 3. Menús y modos de juego</a>
+  El juego consta de un menú principal en el que se muestran los 3 niveles disponibles. Clicando sobre ellos se puede acceder al nivel correspondiente. No obstante, se puede jugar uno después de otro.
+  
+  ###  <a name = "Interfaz"> 3.1 Interfaz y control</a>
+  
+- Cursores flecha izquierda y derecha: movimiento lateral del jugador.
+- Cursor flecha arriba: propulsión vertical del jugador.
+- Barra espaciadora: disparo de proyectil por parte del jugador.
+- Ratón (solo menú principal): seleccionar entre los diferentes niveles.
+
+  ##  <a name = "Contenido"> 4. Contenido</a>
+  
+  Se necesitará:
+- Sprites para las animaciones del jugador, de los enemigos, del cohete y de las explosiones.
+- Sprites para el Fuel y las plataformas.
+- Sonidos para la victoria y la derrota, para las explosiones y para cuando el jugador agarra y suelta el Fuel.
+
+  ###  <a name = "Historia"> 4.1 Historia</a>
+  
+  Nuestro protagonista astronauta, Jetman,  se ha quedado atrapado en un planeta desconocido. Tendrá que volver a poner su nave a punto para poder escapar, mientras se defiende de los ataques de unos alienígenas hostiles.
+  
+  ###  <a name = "Niveles"> 4.2 Niveles</a>
+  
+  El juego consta de un total de 4 niveles. Todos ellos tienen la misma disposición del cohete y de las plataformas (la mostrada en las imágenes anteriores)
+- Nivel 1: aparece un Meteorito cada segundo. Se necesita una unidad de combustible para superar el nivel.
+- Nivel 2: aparece un Alienígena con púas cada segundo. Se necesitan 2 unidades de combustible.
+- Nivel 3: aparece un Caza alienígena cada segundo. Se necesitan 4 unidades de combustible.
+- Nivel 4: aparece un OVNI cada 2 segundos. Se necesitan 5 unidades de combustible.
+  
+  ###  <a name = "Enemigos"> 4.3 Enemigos</a>
+  
+  En el juego habrá un total de 4 enemigos, todos ellos con movimiento toroidal:
+- Meteoritos (animado): caen hacia abajo con un ángulo aleatorio. Al chocar con el jugador o una plataforma, explotan.
+  ![meteor](https://user-images.githubusercontent.com/82372508/160408909-595439e0-e0fb-4412-81fd-10894a5d3ba0.png)
+
+- Alienígena con púas (animado): se mueven en una dirección aleatoria con una velocidad de 20 px/s. Al colisionar con alguna plataforma o con la parte superior de la pantalla, rebotan.
+  ![puas](https://user-images.githubusercontent.com/82372508/160409012-947f26ad-8b44-4246-b44d-31ada4237289.png)
+
+- Caza alienígena (no animado): se mueve horizontalmente a 20 px/s, aumentando y disminuyendo su altura cada segundo. Al chocar con alguna plataforma explota.
+  ![Captura de pantalla 2022-02-13 190059](https://user-images.githubusercontent.com/82372508/160409073-23624892-534e-4f9a-9955-4d148abb2af8.png)
+
+- OVNI (no animado): se mueve a una velocidad constante de 25 px/s hacia el jugador (lo persigue). Al colisionar con alguna plataforma explota.
+ ![Captura de pantalla 2022-02-13 190138](https://user-images.githubusercontent.com/82372508/160409147-18778a16-3937-4401-b2a0-25fe639b08c4.png)
+
+  ###  <a name = "Objetos"> 4.4 Objetos</a>
+  
+  En el juego se puede interactuar con el Fuel, agarrándolo y transportándolo, y con el cohete, para depositar el Fuel. También se puede interactuar con todos los enemigos, ya sea colisionando con ellos o acertándoles un disparo.
+  
+  ##  <a name = "Referencias"> 5. Referencias</a>
+  - Jetpac para ZX Spectrum: https://en.wikipedia.org/wiki/Jetpac
+  
