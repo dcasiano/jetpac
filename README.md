@@ -167,7 +167,7 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   
   El jugador tendrá una puntuación que comenzará en cero y aumentará cada vez que recoga un objeto de puntuación (amuleto, lingote y diamante) y cada vez que se coloca una pieza de la nave (50 puntos) o una unidad de fuel (100 puntos). Cuando se alcanzan los 1000 puntos, se restarán 1000 puntos y se sumará una vida al jugador. Cuando el jugador pasa a un nivel siguiente, mantiene sus puntos del nivel anterior. Cuando se pierde la partida, los puntos se pierden.
   
-  En la parte superior izquierda de la pantalla se mostrarán dos contadores de puntos: uno con la cantidad de puntos actual (al que se le restan puntos cuando se obtiene una vida) y otro con los puntos totales que se han obtenido (nunca se le restan puntos, tan solo sirve para saber los puntos totales que el jugador ha obtenido a lo largo de la partida).
+  En la parte superior izquierda de la pantalla se mostrarán dos contadores de puntos: uno con la cantidad de puntos actual (al que se le restan puntos cuando se obtiene una vida) y otro con los puntos totales que se han obtenido (nunca se le restan puntos, tan solo sirve para saber los puntos totales que el jugador ha obtenido a lo largo de la partida). También se mostrará un icono con un número que indique las vidas del jugador.
 
   
   ##  <a name = "Referencias"> 5. Referencias</a>
