@@ -137,14 +137,14 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   
   ###  <a name = "Enemigos"> 4.3 Enemigos</a>
   
-  En el juego habrá un total de 4 enemigos, todos ellos con movimiento toroidal:
+  En el juego habrá un total de 4 enemigos, todos ellos con movimiento toroidal. El tipo de enemigo y la frecuencia con la que aparecerá depende del nivel, pero en todos aparecen en un extremo de la pantalla (derecho o izquierdo) y a una altura aleatoria (entre los límites superior e inferior de la pantalla). Estos enemigos son:
 - Meteoritos (animado): caen hacia abajo con un ángulo aleatorio. Al chocar con el jugador o una plataforma, explotan.
   ![meteor](https://user-images.githubusercontent.com/82372508/160408909-595439e0-e0fb-4412-81fd-10894a5d3ba0.png)
 
 - Alienígena con púas (animado): se mueven en una dirección aleatoria con una velocidad de 20 px/s. Al colisionar con alguna plataforma o con la parte superior de la pantalla, rebotan.
   ![puas](https://user-images.githubusercontent.com/82372508/160409012-947f26ad-8b44-4246-b44d-31ada4237289.png)
 
-- Caza alienígena (no animado): se mueve horizontalmente a 20 px/s, aumentando y disminuyendo su altura cada segundo. Al chocar con alguna plataforma explota.
+- Caza alienígena (no animado): se mueve horizontalmente a 20 px/s, aumentando y disminuyendo su altura cada segundo. Esto quiere decir que su velocidad en el eje X es siempre 20 px/s (o negativa si se mueve hacia la izquierda), mientras que su velocidad en el eje Y cambia cada segundo entre 10 y -10 px/s. La dirección del caza (si se mueve a la izquiera o a la derecha) es aleatoria. Al chocar con alguna plataforma explota.
   ![Captura de pantalla 2022-02-13 190059](https://user-images.githubusercontent.com/82372508/160409073-23624892-534e-4f9a-9955-4d148abb2af8.png)
 
 - OVNI (no animado): se mueve a una velocidad constante de 25 px/s hacia el jugador (lo persigue). Al colisionar con alguna plataforma explota.
