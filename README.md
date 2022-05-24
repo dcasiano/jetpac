@@ -59,6 +59,7 @@ El juego es una adaptación a navegador del juego Jetpac para ZX Spectrum. En é
     4.2 [Niveles](#Niveles)  
     4.3 [Enemigos](#Enemigos)  
     4.4 [Objetos](#Objetos)
+    4.5 [Puntuación](#Puntuación)
 
 5. [Referencias](#Referencias)
 
@@ -155,6 +156,19 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   ###  <a name = "Objetos"> 4.4 Objetos</a>
   
   En el juego se puede interactuar con el Fuel, agarrándolo y transportándolo, y con el cohete, para depositar el Fuel. También se puede interactuar con todos los enemigos, ya sea colisionando con ellos o acertándoles un disparo.
+  
+  Además hay tres objetos que al recogerlos se le sumará una puntuación al jugador. Estos objetos aparecen en una posición aleatoria en intervalos de tiempo de 1-3 segundos y son afectados por la gravedad. Solo el jugador colisiona con ellos. Tan solo puede haber un objeto simultáneamente en el escenario (cuando se recoge, empieza la cuenta atrás para que el siguiente aparezca). Los tres objetos tienen la misma probabilidad de aparecer. Estos son:
+  - Amuleto triangular: proporciona 100 puntos. ![amuleto](https://user-images.githubusercontent.com/82372508/170123786-38c15bbf-0834-4ad9-aaf5-1404b498a83e.png)
+  - Lingote de oro: proporciona 250 puntos. ![lingote](https://user-images.githubusercontent.com/82372508/170124171-9115497e-d700-436e-a514-7d18dca8cb4a.png)
+  - Diamante: proporciona 400 puntos. ![diamante](https://user-images.githubusercontent.com/82372508/170124306-6806375a-7ce8-4cc3-8a23-c61954347fbe.png)
+
+
+  ###  <a name = "Puntuación"> 4.5 Puntuación</a>
+  
+  El jugador tendrá una puntuación que comenzará en cero y aumentará cada vez que recoga un objeto de puntuación (amuleto, lingote y diamante) y cada vez que se coloca una pieza de la nave (50 puntos) o una unidad de fuel (100 puntos). Cuando se alcanzan los 1000 puntos, se restarán 1000 puntos y se sumará una vida al jugador. Cuando el jugador pasa a un nivel siguiente, mantiene sus puntos del nivel anterior. Cuando se pierde la partida, los puntos se pierden.
+  
+  En la parte superior izquierda de la pantalla se mostrarán dos contadores de puntos: uno con la cantidad de puntos actual (al que se le restan puntos cuando se obtiene una vida) y otro con los puntos totales que se han obtenido (nunca se le restan puntos, tan solo sirve para saber los puntos totales que el jugador ha obtenido a lo largo de la partida).
+
   
   ##  <a name = "Referencias"> 5. Referencias</a>
   - Jetpac para ZX Spectrum: https://en.wikipedia.org/wiki/Jetpac
