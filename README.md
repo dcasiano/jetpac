@@ -78,9 +78,13 @@ El movimiento del personaje hacia izquierda y derecha se realiza con las flechas
 
 El jugador tendrá inicialmente 3 vidas. Cada vez que un enemigo impacta con el jugador le restará una vida. Tras esto, el jugador reaparecerá en la posición inicial. Cuando el contador de vidas llegue a 0, el siguiente impacto enemigo supondrá el final de la partida.
 
+El jugador también podrá recuperar vidas cada vez que alcance una determinada cantidad de puntos (se explica más adelante).
+
 ####  <a name = "Mecánicas-escenario"> Mecánicas de escenario</a>
 
-El escenario está compuesto por el suelo, un determinado número de plataformas, el cohete y las unidades de Fuel. El jugador colisiona con el suelo y las plataformas, mientras que atraviesa el cohete. Cuando pasa por encima del Fuel, lo agarra y lo lleva consigo, hasta que llega al cohete y desaparece, incrementando en uno las unidades de combustible recargadas. Si no se ha llenado todavía el depósito, aparecerá otra unidad de Fuel en un punto aleatorio del escenario. El Fuel también se ve afectado por la gravedad.
+El escenario está compuesto por el suelo, un determinado número de plataformas, el cohete y las unidades de Fuel. En ciertos niveles será necesario reconstruir la nave antes de llenar el depósito de combustible, por lo que en estos niveles aparecerán las diferentes partes de la nave. La nave está formada por tres piezas de las cuales, en ciertos niveles, dos de ellas están repartidas por el escenario y han de ser llevadas de vuelta para reconstruir la nave. Hasta que la nave no esté reconstruida no aparecerán unidades de combustible. El jugador debe recoger las piezas en orden, de manera que primero debe recoger la pieza central de la nave y después la superior. Si colisiona con la pieza que no corresponde no pasará nada, pero si colisiona con la correcta la llevará consigo hasta la nave y se colocará.
+
+El jugador colisiona con el suelo y las plataformas, mientras que atraviesa el cohete. Cuando pasa por encima del Fuel, lo agarra y lo lleva consigo, hasta que llega al cohete y desaparece, incrementando en uno las unidades de combustible recargadas. Si no se ha llenado todavía el depósito, aparecerá otra unidad de Fuel en un punto aleatorio del escenario. El Fuel también se ve afectado por la gravedad.
 
 El escenario es horizontalmente toroidal, de manera que cuando el jugador o los enemigos llegan al extremo derecho vuelven a aparecer en el izquierdo, y viceversa. No hay límite superior vertical (el jugador puede salirse por la parte superior del escenario, pero no se le verá en pantalla).
 
