@@ -11,31 +11,36 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.walkSpeed = 100, this.jumpSpeed = 150;
         this.levelWidth = 256;
+
+        // Audio
+        const config = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0,
+        };
+        this.pickSound = this.scene.sound.add("pick", config);
+        this.soundPlayed = false;
     }
     preUpdate(t, dt) {
         super.preUpdate(t, dt);
         if (this.isGrabbed) {
             this.x = this.player.getX();
             this.y = this.player.getY();
-            let velocityX = 0, velocityY = 0;
-            if (this.cursors.up.isDown) {
-                velocityY = -this.jumpSpeed;
-            }
-            if (this.cursors.left.isDown) {
-                velocityX -= this.walkSpeed;
-            }
-            if (this.cursors.right.isDown) {
-                velocityX += this.walkSpeed;
-            }
-            this.body.setVelocity(velocityX, velocityY);
-            if (this.x < 0) this.x = this.levelWidth;
-            else if (this.x > this.levelWidth) this.x = 0;
         }
 
 
     }
     playerGrab() {
         this.isGrabbed = true;
+        this.body.allowGravity = false;
+        if (!this.soundPlayed) {
+            this.soundPlayed = true;
+            this.pickSound.play();
+        }
         this.player.grabFuel();
     }
     toDestroy() {

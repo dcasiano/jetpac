@@ -1,5 +1,5 @@
 export default class Meteor extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, platforms, player) {
+    constructor(scene, x, y, platforms, player, levelWidth) {
         super(scene, x, y, 'meteor');
         this.scene = scene;
         this.scene.add.existing(this);
@@ -9,7 +9,7 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.setAngle(Phaser.Math.Between(0, 180));
         let maxSpeed = 100;
         this.speed = Phaser.Math.Between(-maxSpeed, maxSpeed);
-        this.levelWidth = 256;
+        this.levelWidth = levelWidth;
 
     }
     create() {

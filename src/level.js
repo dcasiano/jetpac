@@ -8,29 +8,20 @@ export default class Level extends Phaser.Scene {
         super({ key: 'level' });
     }
     init(data) {
-        this.data = data;
+        this.fuelNeeded = data.fuelNeeded;
+        this.meteorCooldown = data.meteorCooldown;
     }
     create() {
         this.createPlatforms();
-        this.player = new Player(this, 100, 100, this.platforms);
+        this.player = new Player(this, 100, 100, this.platforms, this.cameras.main.width);
 
         this.fuelSpawned = false;
         this.meteorSpawned = false;
         this.lastMeteorDestroyed = 0; // ms
         this.ship = new Ship(this, 220, 155, this.player);
         this.label = this.add.text(100, 100, "");
-        if (this.data[0] == 0) {
-            this.ship.setFuelNeeded(2);
-            this.meteorCooldown = 2000; // ms
-        }
-        else if (this.data[0] == 1) {
-            this.ship.setFuelNeeded(3);
-            this.meteorCooldown = 1000; // ms
-        }
-        else {
-            this.ship.setFuelNeeded(5);
-            this.meteorCooldown = 500; // ms
-        }
+        this.ship.setFuelNeeded(this.fuelNeeded);
+
     }
     createPlatforms() {
         this.platforms = this.physics.add.staticGroup();
@@ -78,7 +69,7 @@ export default class Level extends Phaser.Scene {
     }
     spawnMeteor() {
         if (this.time.now >= (this.lastMeteorDestroyed + this.meteorCooldown)) {
-            this.meteor = new Meteor(this, 120, 50, this.platforms, this.player);
+            this.meteor = new Meteor(this, 120, 50, this.platforms, this.player, this.cameras.main.width);
             this.meteorSpawned = true;
         }
 
