@@ -26,6 +26,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
             repeat: -1    // Animación en bucle
         });
 
+        // Audio
+        const config = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0,
+        };
+        this.pickSound = this.scene.sound.add("pick", config);
+        this.dropSound = this.scene.sound.add("drop", config);
+
     }
     preUpdate(t, dt) {
         super.preUpdate(t, dt);
@@ -59,7 +72,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
     }
     hitByMeteor() {
-
+        this.scene.playerHitByMeteor();
+        this.destroy();
     }
     getX() {
         return this.x;
@@ -69,11 +83,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
     grabFuel() {
         this.fuelGrabbed = true;
+        this.pickSound.play();
     }
     dropFuel() {
-        this, this.fuelGrabbed = false;
+        this.fuelGrabbed = false;
+        this.dropSound.play();
     }
     isFuelGrabbed() {
         return this.fuelGrabbed;
+    }
+    allFuelReloaded() {
+        this.destroy();
     }
 }

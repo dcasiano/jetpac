@@ -4,22 +4,20 @@ export default class Ship extends Phaser.GameObjects.Sprite {
         this.scene = scene;
         this.player = player;
         this.scene.add.existing(this);
-        this.scene.physics.add.existing(this, true);
+        this.scene.physics.add.existing(this);
         this.scene.physics.add.collider(this, player, this.playerCollision, null, this);
-        this.fuelNeeded;
-        this.fuelReloaded = 0;
+        this.body.setImmovable(true);
+        this.body.allowGravity = false;
+        this.body.setMaxVelocityY(150);
+        this.acc = -850;
     }
     playerCollision() {
         if (this.player.isFuelGrabbed()) {
             this.player.dropFuel();
-            this.fuelReloaded++;
             this.scene.oneFuelReloaded();
         }
     }
-    allFuelReloaded() {
-        return this.fuelReloaded >= this.fuelNeeded;
-    }
-    setFuelNeeded(amount) {
-        this.fuelNeeded = amount;
+    takeoff() {
+        this.body.setAccelerationY(this.acc);
     }
 }
