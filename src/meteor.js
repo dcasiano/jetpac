@@ -76,4 +76,10 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.explosionSound.play();
         this.play('explosion', false);
     }
+    onBulletCollision(){
+        this.body.setVelocity(0, 0);
+        this.setAngle(0);
+        this.explosionSound.play();
+        this.play('explosion', false);
+    }
 }

@@ -16,6 +16,7 @@ export default class Boot extends Phaser.Scene {
         this.load.spritesheet('explosion', 'explosion.png', { frameWidth: 24, frameHeight: 17 });
         this.load.image('fuel', 'fuel.png');
         this.load.image('spaceship', 'spaceship.png');
+        this.load.image('bullet', 'bullet.png');
 
         // Sounds
         this.load.setPath('assets/sounds/');

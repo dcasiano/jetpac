@@ -19,8 +19,6 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
             this.x = this.player.getX();
             this.y = this.player.getY();
         }
-
-
     }
     playerGrab() {
         if (!this.isGrabbed) {

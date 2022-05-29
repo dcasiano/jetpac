@@ -7,10 +7,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.collider(this, platforms);
         // Cursores para el control
         this.cursors = this.scene.input.keyboard.createCursorKeys();
+        this.keys = this.scene.input.keyboard.addKeys("SPACE");
         this.walkSpeed = 100, this.jumpAcc = -850;
         this.levelWidth = levelWidth;
         this.fuelGrabbed = false;
         this.body.setMaxVelocityY(150);
+        this.shootCooldown = 500;
+        this.lastShotTime = -this.shootCooldown;
 
         // Animaciones
         this.scene.anims.create({
@@ -57,12 +60,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
             velocityX += this.walkSpeed;
             this.flipX = false;
         }
-
         this.body.setVelocityX(velocityX);
 
         // Movimiento toroidal
         if (this.x < 0) this.x = this.levelWidth;
         else if (this.x > this.levelWidth) this.x = 0;
+        
+        // Shoot
+        if (this.keys.SPACE.isDown && this.scene.getTimeNow() >= (this.lastShotTime + this.shootCooldown)) {
+            this.lastShotTime = this.scene.getTimeNow();
+            this.scene.onPlayerShoot(this.x, this.y, !this.flipX);
+        }
 
         // Animaciones
         if (!this.body.onFloor()) this.play('fly', true);

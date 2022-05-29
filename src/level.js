@@ -3,6 +3,7 @@ import Player from "./player.js";
 import Meteor from "./meteor.js";
 import Fuel from "./fuel.js";
 import Ship from "./ship.js";
+import Bullet from "./bullet.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: 'level' });
@@ -15,6 +16,7 @@ export default class Level extends Phaser.Scene {
         this.createPlatforms();
         this.player = new Player(this, 100, 100, this.platforms, this.cameras.main.width);
 
+        this.enemies = this.physics.add.staticGroup();
         this.meteorSpawned = false;
         this.lastMeteorDestroyed = 0; // ms
         this.ship = new Ship(this, 220, 155, this.player);
@@ -74,7 +76,7 @@ export default class Level extends Phaser.Scene {
     }
     spawnMeteor() {
         if (this.time.now >= (this.lastMeteorDestroyed + this.meteorCooldown)) {
-            this.meteor = new Meteor(this, 120, 50, this.platforms, this.player, this.cameras.main.width);
+            this.enemies.add(new Meteor(this, 120, 50, this.platforms, this.player, this.cameras.main.width));
             this.meteorSpawned = true;
         }
     }
@@ -91,5 +93,11 @@ export default class Level extends Phaser.Scene {
         this.player.allFuelReloaded();
         this.ship.takeoff();
         this.time.delayedCall(1500, this.restartGame, null, this);
+    }
+    onPlayerShoot(x, y, isLookingRight) {
+        new Bullet(this, x, y, this.platforms, this.enemies, this.cameras.main.width, isLookingRight);
+    }
+    getTimeNow() {
+        return this.time.now;
     }
 }
