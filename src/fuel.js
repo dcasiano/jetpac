@@ -7,10 +7,12 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.collider(this, platforms);
         this.scene.physics.add.collider(this, player, this.playerGrab, null, this);
         this.isGrabbed = false;
+        this.body.setMaxVelocityY(150);
 
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.walkSpeed = 100, this.jumpSpeed = 150;
         this.levelWidth = 256;
+        this.scoreValue = 100;
 
     }
     preUpdate(t, dt) {
@@ -27,7 +29,15 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
             this.player.grabFuel();
         }
     }
+    playerDrop() {
+        this.isGrabbed = false;
+        this.body.allowGravity = true;
+        this.body.setVelocity(0, 0);
+    }
     toDestroy() {
         this.destroy();
+    }
+    getScoreValue() {
+        return this.scoreValue;
     }
 }

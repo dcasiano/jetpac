@@ -17,6 +17,10 @@ export default class Boot extends Phaser.Scene {
         this.load.image('fuel', 'fuel.png');
         this.load.image('spaceship', 'spaceship.png');
         this.load.image('bullet', 'bullet.png');
+        this.load.image('livesHUD', 'livesHUD.png');
+        this.load.image('amulet', 'amulet.png');
+        this.load.image('gold', 'gold.png');
+        this.load.image('diamond', 'diamond.png');
 
         // Sounds
         this.load.setPath('assets/sounds/');
@@ -25,6 +29,7 @@ export default class Boot extends Phaser.Scene {
         this.load.audio('explosion', 'explosion.wav');
         this.load.audio('win', 'win.wav');
         this.load.audio('lose', 'lose.wav');
+        this.load.audio('gooditempick', 'gooditempick.wav');
 
     }
 

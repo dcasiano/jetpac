@@ -8,6 +8,7 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.platCollider = this.scene.physics.add.collider(this, platforms, this.explode, null, this);
         this.playerCollider = this.scene.physics.add.collider(this, this.player, this.playerHit, null, this);
         this.levelWidth = levelWidth;
+        this.hasExploded = false;
 
         // Movimiento
         let angle = Phaser.Math.Between(10, 170);
@@ -47,8 +48,6 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
             delay: 0,
         };
         this.explosionSound = this.scene.sound.add("explosion", config);
-
-
     }
     create() {
 
@@ -63,23 +62,24 @@ export default class Meteor extends Phaser.GameObjects.Sprite {
         this.destroy();
     }
     playerHit() {
-        this.body.setVelocity(0, 0);
-        this.setAngle(0);
-        this.playerCollider.destroy();
-        this.play('explosion', false);
-        this.player.hitByMeteor();
+        if (!this.hasExploded) {
+            if (this.player.getLives() > 0) this.explosionSound.play();
+            this.explosion();
+            this.player.hitByMeteor();
+        }
     }
     explode() {
-        this.body.setVelocity(0, 0);
-        this.setAngle(0);
-        this.platCollider.destroy();
         this.explosionSound.play();
-        this.play('explosion', false);
+        this.explosion();
     }
-    onBulletCollision(){
-        this.body.setVelocity(0, 0);
-        this.setAngle(0);
-        this.explosionSound.play();
-        this.play('explosion', false);
+    explosion() {
+        if (!this.hasExploded) {
+            this.hasExploded = true;
+            this.body.setVelocity(0, 0);
+            this.setAngle(0);
+            this.platCollider.destroy();
+            this.playerCollider.destroy();
+            this.play('explosion', false);
+        }
     }
 }

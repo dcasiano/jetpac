@@ -4,6 +4,7 @@ import Meteor from "./meteor.js";
 import Fuel from "./fuel.js";
 import Ship from "./ship.js";
 import Bullet from "./bullet.js";
+import Gooditem from "./gooditem.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: 'level' });
@@ -11,16 +12,20 @@ export default class Level extends Phaser.Scene {
     init(data) {
         this.fuelNeeded = data.fuelNeeded;
         this.meteorCooldown = data.meteorCooldown;
+        this.score = data.score;
+        this.totalScore = data.totalScore;
+        this.playerLives = data.playerLives;
     }
     create() {
         this.createPlatforms();
-        this.player = new Player(this, 100, 100, this.platforms, this.cameras.main.width);
+        this.playerX = 100, this.playerY = 100;
+        this.player = new Player(this, this.playerX, this.playerY, this.platforms);
 
         this.enemies = this.physics.add.staticGroup();
         this.meteorSpawned = false;
         this.lastMeteorDestroyed = 0; // ms
         this.ship = new Ship(this, 220, 155, this.player);
-        this.label = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
+        this.winText = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
         this.spawnFuel();
         this.fuelReloaded = 0;
 
@@ -36,6 +41,20 @@ export default class Level extends Phaser.Scene {
         };
         this.winSound = this.sound.add("win", config);
         this.loseSound = this.sound.add("lose", config);
+        this.onGooditemTaken(); // Spawneamos el primer Gooditem
+
+        // HUD
+        this.add.image(this.cameras.main.width - 15, 15, 'livesHUD');
+        this.livesText = this.add.text(this.cameras.main.width - 28, 10, "", { fontFamily: 'Pixeled' });
+        this.livesText.setFontSize(8);
+        this.player.setLives(this.playerLives); // Establecemos las vidas que tenia en el nivel anterior (si venimos del menu ppal no hace nada)
+        this.updateLives(this.player.getLives());
+
+        this.scoreText = this.add.text(10, 10, "", { fontFamily: 'Pixeled' });
+        this.scoreText.setFontSize(8);
+        this.totalScoreText = this.add.text(80, 10, "", { fontFamily: 'Pixeled' });
+        this.totalScoreText.setFontSize(8);
+        this.updateScoreHUD();
     }
 
     update() {
@@ -66,6 +85,7 @@ export default class Level extends Phaser.Scene {
         this.time.delayedCall(1500, this.restartGame, null, this);
     }
     oneFuelReloaded() {
+        this.increaseScore(this.fuel.getScoreValue());
         this.fuel.toDestroy();
         this.fuelReloaded++;
         if (this.fuelReloaded >= this.fuelNeeded) this.onAllFuelReloaded();
@@ -88,7 +108,7 @@ export default class Level extends Phaser.Scene {
         this.scene.start('menu');
     }
     onAllFuelReloaded() {
-        this.label.text = 'Victory';
+        this.winText.text = 'Victory';
         this.winSound.play();
         this.player.allFuelReloaded();
         this.ship.takeoff();
@@ -99,5 +119,43 @@ export default class Level extends Phaser.Scene {
     }
     getTimeNow() {
         return this.time.now;
+    }
+    getPlayerInitialX() {
+        return this.playerX;
+    }
+    getPlayerInitialY() {
+        return this.playerY;
+    }
+    getCameraWidth() {
+        return this.cameras.main.width;
+    }
+    getCameraHeight() {
+        return this.cameras.main.height;
+    }
+    updateLives(lives) {
+        this.livesText.text = lives;
+    }
+    onPlayerDeadWithFuel() {
+        this.fuel.playerDrop();
+    }
+    increaseScore(value) {
+        this.score += value;
+        this.totalScore += value;
+        if (this.score >= 1000) {
+            this.score -= 1000;
+            this.player.increaseOneLive();
+        }
+        this.updateScoreHUD();
+    }
+    updateScoreHUD() {
+        this.scoreText.text = "Score: " + this.score;
+        this.totalScoreText.text = "Total: " + this.totalScore;
+    }
+    spawnGooditem() {
+        let x = Phaser.Math.Between(0 + 10, this.getCameraWidth() - 10), y = 20;
+        new Gooditem(this, x, y, this.player, this.platforms);
+    }
+    onGooditemTaken() {
+        this.time.delayedCall(Phaser.Math.Between(1000, 3000), this.spawnGooditem, null, this);
     }
 }

@@ -1,5 +1,5 @@
 export default class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, platforms, levelWidth) {
+    constructor(scene, x, y, platforms) {
         super(scene, x, y, 'jetpac');
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
@@ -9,11 +9,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.keys = this.scene.input.keyboard.addKeys("SPACE");
         this.walkSpeed = 100, this.jumpAcc = -850;
-        this.levelWidth = levelWidth;
+        this.levelWidth = this.scene.getCameraWidth();
         this.fuelGrabbed = false;
         this.body.setMaxVelocityY(150);
         this.shootCooldown = 500;
         this.lastShotTime = -this.shootCooldown;
+        this.lives = 3;
 
         // Animaciones
         this.scene.anims.create({
@@ -65,7 +66,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         // Movimiento toroidal
         if (this.x < 0) this.x = this.levelWidth;
         else if (this.x > this.levelWidth) this.x = 0;
-        
+
         // Shoot
         if (this.keys.SPACE.isDown && this.scene.getTimeNow() >= (this.lastShotTime + this.shootCooldown)) {
             this.lastShotTime = this.scene.getTimeNow();
@@ -80,8 +81,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
     }
     hitByMeteor() {
-        this.scene.playerHitByMeteor();
-        this.destroy();
+        this.lives--;
+        if (this.lives >= 0) {
+            this.y = this.scene.getCameraHeight() + 100;
+            this.body.allowGravity = false;
+            this.scene.updateLives(this.lives);
+            if (this.fuelGrabbed) {
+                this.fuelGrabbed = false;
+                this.scene.onPlayerDeadWithFuel();
+            }
+            this.scene.time.delayedCall(1500, this.spawnPlayer, null, this);
+        }
+        else {
+            this.scene.playerHitByMeteor();
+            this.destroy();
+        }
     }
     getX() {
         return this.x;
@@ -102,5 +116,23 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
     allFuelReloaded() {
         this.destroy();
+    }
+    spawnPlayer() {
+        this.x = this.scene.getPlayerInitialX();
+        this.y = this.scene.getPlayerInitialY();
+        this.body.allowGravity = true;
+    }
+    getLives() {
+        return this.lives;
+    }
+    setLives(lives) {
+        if (lives >= 0) {
+            this.lives = lives;
+            this.scene.updateLives(this.lives);
+        }
+    }
+    increaseOneLive() {
+        this.lives++;
+        this.scene.updateLives(this.lives);
     }
 }
