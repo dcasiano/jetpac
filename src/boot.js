@@ -21,6 +21,10 @@ export default class Boot extends Phaser.Scene {
         this.load.image('amulet', 'amulet.png');
         this.load.image('gold', 'gold.png');
         this.load.image('diamond', 'diamond.png');
+        this.load.image('shipbotton', 'shipbotton.png');
+        this.load.image('shipmiddle', 'shipmiddle.png');
+        this.load.image('shiptop', 'shiptop.png');
+        this.load.image('shipbotandmid', 'shipbotandmid.png');
 
         // Sounds
         this.load.setPath('assets/sounds/');

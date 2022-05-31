@@ -5,6 +5,7 @@ import Fuel from "./fuel.js";
 import Ship from "./ship.js";
 import Bullet from "./bullet.js";
 import Gooditem from "./gooditem.js";
+import Shippiece from "./shippiece.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: 'level' });
@@ -15,6 +16,7 @@ export default class Level extends Phaser.Scene {
         this.score = data.score;
         this.totalScore = data.totalScore;
         this.playerLives = data.playerLives;
+        this.needBuild = data.needBuild;
     }
     create() {
         this.createPlatforms();
@@ -24,9 +26,14 @@ export default class Level extends Phaser.Scene {
         this.enemies = this.physics.add.staticGroup();
         this.meteorSpawned = false;
         this.lastMeteorDestroyed = 0; // ms
-        this.ship = new Ship(this, 220, 155, this.player);
+        this.ship = new Ship(this, 220, 155, this.player, this.needBuild);
         this.winText = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
-        this.spawnFuel();
+        if (this.needBuild) this.spawnShippieces();
+        else {
+            this.spawnFuel();
+            this.onGooditemTaken(); // Spawneamos el primer Gooditem
+        }
+
         this.fuelReloaded = 0;
 
         // Audio
@@ -41,7 +48,7 @@ export default class Level extends Phaser.Scene {
         };
         this.winSound = this.sound.add("win", config);
         this.loseSound = this.sound.add("lose", config);
-        this.onGooditemTaken(); // Spawneamos el primer Gooditem
+
 
         // HUD
         this.add.image(this.cameras.main.width - 15, 15, 'livesHUD');
@@ -80,7 +87,7 @@ export default class Level extends Phaser.Scene {
             this.platforms.add(new Platform(this, i * width + width + offset / 2, 50))
         }
     }
-    playerHitByMeteor() {
+    playerDied() {
         this.loseSound.play();
         this.time.delayedCall(1500, this.restartGame, null, this);
     }
@@ -157,5 +164,32 @@ export default class Level extends Phaser.Scene {
     }
     onGooditemTaken() {
         this.time.delayedCall(Phaser.Math.Between(1000, 3000), this.spawnGooditem, null, this);
+    }
+    onPieceSet(piece) {
+        if (piece == "middle") {
+            this.increaseScore(this.shipMidpart.getScoreValue());
+            this.shipMidpart.toDestroy();
+            this.shipToppart.allowPlayerCollision();
+        }
+        else if (piece == "top") {
+            this.increaseScore(this.shipToppart.getScoreValue());
+            this.shipToppart.toDestroy();
+            // Empezar a spawnear fuel y gooditems
+            this.spawnFuel();
+            this.onGooditemTaken();
+        }
+    }
+    onPlayerDeadWithShippiece(piece) {
+        // Soltar la pieza
+        if (piece == "middle") {
+            this.shipMidpart.playerDrop();
+        }
+        else if (piece == "top") {
+            this.shipToppart.playerDrop();
+        }
+    }
+    spawnShippieces() {
+        this.shipMidpart = new Shippiece(this, 50, 20, this.platforms, this.player, "middle");
+        this.shipToppart = new Shippiece(this, 180, 20, this.platforms, this.player, "top");
     }
 }
