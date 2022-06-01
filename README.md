@@ -140,8 +140,8 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   
   ###  <a name = "Enemigos"> 4.3 Enemigos</a>
   
-  En el juego habrá un total de 4 enemigos, todos ellos con movimiento toroidal. El tipo de enemigo y la frecuencia con la que aparecerá depende del nivel, pero en todos aparecen en un extremo de la pantalla (derecho o izquierdo) y a una altura aleatoria (entre los límites superior e inferior de la pantalla). Estos enemigos son:
-- Meteoritos (animado): caen hacia abajo con un ángulo aleatorio. Esto es, el meteorito cae hacia abajo afectado por la gravedad, pero con un ángulo respecto al eje Y aleatorio. Al chocar con el jugador o una plataforma, explotan.
+  En el juego habrá un total de 4 enemigos, todos ellos con movimiento toroidal. El tipo de enemigo y la frecuencia con la que aparecerá depende del nivel, pero en todos (a excepción de los meteoritos) aparecen en un extremo de la pantalla (derecho o izquierdo) y a una altura aleatoria (entre los límites superior e inferior de la pantalla). Estos enemigos son:
+- Meteoritos (animado): aparecen en una posición aleatoria en la parte superior de la escena y caen hacia abajo con un ángulo aleatorio. Esto es, el meteorito cae hacia abajo afectado por la gravedad, pero con un ángulo respecto al eje Y aleatorio. Al chocar con el jugador o una plataforma, explotan.
   ![meteor](https://user-images.githubusercontent.com/82372508/160408909-595439e0-e0fb-4412-81fd-10894a5d3ba0.png)
 
 - Alienígena con púas (animado): se mueven en una dirección aleatoria con una velocidad de 20 px/s. Al colisionar con alguna plataforma o con la parte superior de la pantalla, rebotan.
