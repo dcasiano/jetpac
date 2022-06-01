@@ -6,6 +6,7 @@ import Ship from "./ship.js";
 import Bullet from "./bullet.js";
 import Gooditem from "./gooditem.js";
 import Shippiece from "./shippiece.js";
+import Alien from "./alien.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: 'level' });
@@ -24,8 +25,7 @@ export default class Level extends Phaser.Scene {
         this.player = new Player(this, this.playerX, this.playerY, this.platforms);
 
         this.enemies = this.physics.add.staticGroup();
-        this.meteorSpawned = false;
-        this.lastMeteorDestroyed = 0; // ms
+        this.lastEnemySpawned = 0; // ms
         this.ship = new Ship(this, 220, 155, this.player, this.needBuild);
         this.winText = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
         if (this.needBuild) this.spawnShippieces();
@@ -65,7 +65,8 @@ export default class Level extends Phaser.Scene {
     }
 
     update() {
-        if (!this.meteorSpawned) this.spawnMeteor();
+        //this.spawnMeteor();
+        this.spawnAlien();
     }
 
     createPlatforms() {
@@ -102,15 +103,21 @@ export default class Level extends Phaser.Scene {
         this.fuel = new Fuel(this, Phaser.Math.Between(50, 206), 150, this.platforms, this.player);
     }
     spawnMeteor() {
-        if (this.time.now >= (this.lastMeteorDestroyed + this.meteorCooldown)) {
-            this.enemies.add(new Meteor(this, 120, 50, this.platforms, this.player, this.cameras.main.width));
-            this.meteorSpawned = true;
+        if (this.time.now >= (this.lastEnemySpawned + this.meteorCooldown)) {
+            this.enemies.add(new Meteor(this, this.platforms, this.player, this.cameras.main.width));
+            this.lastEnemySpawned=this.time.now;
         }
     }
-    meteorDestroyed() {
-        this.meteorSpawned = false;
-        this.lastMeteorDestroyed = this.time.now;
+    spawnAlien() {
+        if (this.time.now >= (this.lastEnemySpawned + this.meteorCooldown)) {
+            this.enemies.add(new Alien(this, this.platforms, this.player, this.cameras.main.width,this.cameras.main.height));
+            this.lastEnemySpawned=this.time.now;
+        }
     }
+    /* meteorDestroyed() {
+        this.meteorSpawned = false;
+        this.lastMeteorSpawned = this.time.now;
+    } */
     restartGame() {
         this.scene.start('menu');
     }

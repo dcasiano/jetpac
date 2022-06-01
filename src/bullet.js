@@ -18,7 +18,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.enemies.children.iterate(item => {
             if (this.scene.physics.collide(item, this)) {
                 alive = false;
-                item.explode();
+                item.onBulletCollision();
             }
         })
         if (this.x < 0) alive = false;
