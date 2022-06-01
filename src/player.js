@@ -142,6 +142,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
             this.scene.updateLives(this.lives);
         }
     }
+    playerAlive() {
+        return this.isAlive;
+    }
     increaseOneLive() {
         this.lives++;
         this.scene.updateLives(this.lives);

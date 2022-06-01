@@ -1,5 +1,5 @@
 export default class Enemy extends Phaser.GameObjects.Sprite {
-    constructor(x, y, sprite, scene, platforms, player, levelWidth) {
+    constructor(x, y, sprite, scene, platforms, player) {
         super(scene, x, y, sprite);
         this.scene = scene;
         this.player = player;
@@ -7,7 +7,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this);
         this.platCollider = this.scene.physics.add.collider(this, platforms, this.platformCollision, null, this);
         this.playerCollider = this.scene.physics.add.collider(this, this.player, this.playerHit, null, this);
-        this.levelWidth = levelWidth;
+        this.levelWidth = this.scene.getCameraWidth();
+        this.levelHeight = this.scene.getCameraHeight();
         this.hasExploded = false;
         this.explodeOnPlatforms = true;
 
@@ -82,11 +83,11 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     setVelocity(VelX, VelY) {
         this.body.setVelocity(VelX, VelY);
     }
-    getRandomHeight(levelHeight) {
-        return Phaser.Math.Between(10, levelHeight - 10);
+    getRandomHeight() {
+        return Phaser.Math.Between(10, this.levelHeight - 10);
     }
-    getRandomBorder(levelWidth) {
-        return levelWidth * Phaser.Math.Between(0, 1);
+    getRandomBorder() {
+        return this.levelWidth * Phaser.Math.Between(0, 1);
     }
     setCollideWorldBounds() {
         this.body.setCollideWorldBounds();

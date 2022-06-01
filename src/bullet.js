@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, platforms, enemies, levelWidth, lookingRight) {
+    constructor(scene, x, y, platforms, enemies, lookingRight) {
         super(scene, x, y, 'bullet');
         this.scene = scene;
         this.enemies = enemies;
@@ -7,7 +7,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this);
         this.scene.physics.add.collider(this, platforms, this.destroy, null, this);
         this.body.allowGravity = false;
-        this.levelWidth = levelWidth;
+        this.levelWidth = scene.getCameraWidth();
         let vel = 150;
         if (!lookingRight) vel = -vel;
         this.body.setVelocity(vel, 0);

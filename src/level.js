@@ -7,13 +7,15 @@ import Bullet from "./bullet.js";
 import Gooditem from "./gooditem.js";
 import Shippiece from "./shippiece.js";
 import Alien from "./alien.js";
+import Fighter from "./fighter.js";
+import Ufo from "./ufo.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: 'level' });
     }
     init(data) {
         this.fuelNeeded = data.fuelNeeded;
-        this.meteorCooldown = data.meteorCooldown;
+        this.enemyCooldown = data.meteorCooldown;
         this.score = data.score;
         this.totalScore = data.totalScore;
         this.playerLives = data.playerLives;
@@ -66,7 +68,9 @@ export default class Level extends Phaser.Scene {
 
     update() {
         //this.spawnMeteor();
-        this.spawnAlien();
+        //this.spawnAlien();
+        //this.spawnFighter();
+        this.spawnUfo();
     }
 
     createPlatforms() {
@@ -103,15 +107,27 @@ export default class Level extends Phaser.Scene {
         this.fuel = new Fuel(this, Phaser.Math.Between(50, 206), 150, this.platforms, this.player);
     }
     spawnMeteor() {
-        if (this.time.now >= (this.lastEnemySpawned + this.meteorCooldown)) {
-            this.enemies.add(new Meteor(this, this.platforms, this.player, this.cameras.main.width));
-            this.lastEnemySpawned=this.time.now;
+        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
+            this.enemies.add(new Meteor(this, this.platforms, this.player));
+            this.lastEnemySpawned = this.time.now;
         }
     }
     spawnAlien() {
-        if (this.time.now >= (this.lastEnemySpawned + this.meteorCooldown)) {
-            this.enemies.add(new Alien(this, this.platforms, this.player, this.cameras.main.width,this.cameras.main.height));
-            this.lastEnemySpawned=this.time.now;
+        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
+            this.enemies.add(new Alien(this, this.platforms, this.player));
+            this.lastEnemySpawned = this.time.now;
+        }
+    }
+    spawnFighter() {
+        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
+            this.enemies.add(new Fighter(this, this.platforms, this.player));
+            this.lastEnemySpawned = this.time.now;
+        }
+    }
+    spawnUfo() {
+        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
+            this.enemies.add(new Ufo(this, this.platforms, this.player));
+            this.lastEnemySpawned = this.time.now;
         }
     }
     /* meteorDestroyed() {
@@ -129,7 +145,7 @@ export default class Level extends Phaser.Scene {
         this.time.delayedCall(1500, this.restartGame, null, this);
     }
     onPlayerShoot(x, y, isLookingRight) {
-        new Bullet(this, x, y, this.platforms, this.enemies, this.cameras.main.width, isLookingRight);
+        new Bullet(this, x, y, this.platforms, this.enemies, isLookingRight);
     }
     getTimeNow() {
         return this.time.now;

@@ -1,8 +1,8 @@
 import Enemy from "./enemy.js";
 export default class Meteor extends Enemy {
-    constructor(scene, platforms, player, levelWidth) {
-        let x = Phaser.Math.Between(10, levelWidth), y = 10;
-        super(x, y, 'meteor', scene, platforms, player, levelWidth);
+    constructor(scene, platforms, player) {
+        let x = Phaser.Math.Between(10, scene.getCameraWidth()), y = 10;
+        super(x, y, 'meteor', scene, platforms, player);
 
         // Movimiento
         let angle = Phaser.Math.Between(10, 170);

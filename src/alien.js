@@ -1,8 +1,8 @@
 import Enemy from "./enemy.js";
 export default class Alien extends Enemy {
-    constructor(scene, platforms, player, levelWidth, levelHeight) {
-        super(0, 0, 'meteor', scene, platforms, player, levelWidth);
-        let x = super.getRandomBorder(levelWidth), y = super.getRandomHeight(levelHeight);
+    constructor(scene, platforms, player) {
+        super(0, 0, 'meteor', scene, platforms, player);
+        let x = super.getRandomBorder(), y = super.getRandomHeight();
         super.setPosition(x, y);
 
         // Movimiento
