@@ -1,4 +1,3 @@
-import Platform from "./platform.js";
 import Player from "./player.js";
 import Meteor from "./meteor.js";
 import Fuel from "./fuel.js";
