@@ -24,14 +24,23 @@ export default class Level extends Phaser.Scene {
         this.lastLevelPlayerLives = data.playerLives;
     }
     create() {
-        this.createPlatforms();
-        this.playerX = 100, this.playerY = 100;
-        this.player = new Player(this, this.playerX, this.playerY, this.platforms);
+        // Creacion de plataformas con Tiled
+        this.map = this.make.tilemap({
+            key: 'tilemap',
+            tileWidth: 8,
+            tileHeight: 8
+        });
+        const tileset1 = this.map.addTilesetImage('tiles1', 'tileset');
+        this.platforms = this.map.createLayer('toplayer', tileset1, 0, 0);
+        this.platforms.setCollisionBetween(0, 999);
+
+        this.playerX0 = 100, this.playerY0 = 100;
+        this.player = new Player(this, this.playerX0, this.playerY0, this.platforms);
 
         this.enemies = this.physics.add.staticGroup();
         this.lastEnemySpawned = 0; // ms
         this.fuelReloaded = 0;
-        this.ship = new Ship(this, 220, 155, this.player, this.needBuild);
+        this.ship = new Ship(this, 160, 160, this.player, this.needBuild);
         this.winText = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
         if (this.needBuild) this.spawnShippieces();
         else {
@@ -69,41 +78,9 @@ export default class Level extends Phaser.Scene {
     }
 
     update() {
-        switch (this.enemyType) {
-            case 0:
-                this.spawnMeteor();
-                break;
-            case 1:
-                this.spawnAlien();
-                break;
-            case 2:
-                this.spawnFighter();
-                break;
-            case 3:
-                this.spawnUfo();
-                break;
-        }
+        this.spawnEnemy();
     }
 
-    createPlatforms() {
-        this.platforms = this.physics.add.staticGroup();
-        let width = 24;
-        for (let i = 0; i < 11; i++) {
-            this.platforms.add(new Platform(this, i * width + width / 2, 185));
-        }
-        let offset = 40;
-        for (let i = 0; i < 2; i++) {
-            this.platforms.add(new Platform(this, i * width + width + offset / 2, 70))
-        }
-        offset = 150;
-        for (let i = 0; i < 2; i++) {
-            this.platforms.add(new Platform(this, i * width + width + offset / 2, 120))
-        }
-        offset = 280;
-        for (let i = 0; i < 2; i++) {
-            this.platforms.add(new Platform(this, i * width + width + offset / 2, 50))
-        }
-    }
     playerDied() {
         this.loseSound.play();
         this.time.delayedCall(1500, this.resetGame, null, this);
@@ -116,30 +93,25 @@ export default class Level extends Phaser.Scene {
         else this.spawnFuel();
     }
     spawnFuel() {
-        this.fuel = new Fuel(this, Phaser.Math.Between(50, 206), 150, this.platforms, this.player);
+        this.fuel = new Fuel(this, Phaser.Math.Between(10, this.getCameraWidth() - 10), 50, this.platforms, this.player);
     }
-    spawnMeteor() {
+    spawnEnemy() {
         if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
-            this.enemies.add(new Meteor(this, this.platforms, this.player));
             this.lastEnemySpawned = this.time.now;
-        }
-    }
-    spawnAlien() {
-        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
-            this.enemies.add(new Alien(this, this.platforms, this.player));
-            this.lastEnemySpawned = this.time.now;
-        }
-    }
-    spawnFighter() {
-        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
-            this.enemies.add(new Fighter(this, this.platforms, this.player));
-            this.lastEnemySpawned = this.time.now;
-        }
-    }
-    spawnUfo() {
-        if (this.time.now >= (this.lastEnemySpawned + this.enemyCooldown)) {
-            this.enemies.add(new Ufo(this, this.platforms, this.player));
-            this.lastEnemySpawned = this.time.now;
+            switch (this.enemyType) {
+                case 0:
+                    this.enemies.add(new Meteor(this, this.platforms, this.player));
+                    break;
+                case 1:
+                    this.enemies.add(new Alien(this, this.platforms, this.player));
+                    break;
+                case 2:
+                    this.enemies.add(new Fighter(this, this.platforms, this.player));
+                    break;
+                case 3:
+                    this.enemies.add(new Ufo(this, this.platforms, this.player));
+                    break;
+            }
         }
     }
     nextLevel() {
@@ -164,10 +136,10 @@ export default class Level extends Phaser.Scene {
         return this.time.now;
     }
     getPlayerInitialX() {
-        return this.playerX;
+        return this.playerX0;
     }
     getPlayerInitialY() {
-        return this.playerY;
+        return this.playerY0;
     }
     getShipX() {
         return this.ship.getX();
@@ -234,7 +206,7 @@ export default class Level extends Phaser.Scene {
         }
     }
     spawnShippieces() {
-        this.shipMidpart = new Shippiece(this, 50, 20, this.platforms, this.player, "middle");
-        this.shipToppart = new Shippiece(this, 180, 20, this.platforms, this.player, "top");
+        this.shipMidpart = new Shippiece(this, 40, 20, this.platforms, this.player, "middle");
+        this.shipToppart = new Shippiece(this, 200, 10, this.platforms, this.player, "top");
     }
 }

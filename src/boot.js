@@ -8,6 +8,10 @@ export default class Boot extends Phaser.Scene {
     //Carga de los assets
 
     preload() {
+        // Tielmap
+        this.load.setPath('assets/tilemap/');
+        this.load.tilemapTiledJSON('tilemap', 'map1.json');
+
         // Sprites
         this.load.setPath('assets/sprites/');
         this.load.image('tileset', 'tileset.png');

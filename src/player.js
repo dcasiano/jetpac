@@ -14,7 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.fuelGrabbed = false;
         this.shippieceGrabbed = "none";
         this.body.setMaxVelocityY(150);
-        this.shootCooldown = 500;
+        this.shootCooldown = 250;
         this.lastShotTime = -this.shootCooldown;
         this.lives = 3;
         this.isAlive = true;
