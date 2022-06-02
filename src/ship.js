@@ -16,6 +16,19 @@ export default class Ship extends Phaser.GameObjects.Sprite {
         this.body.setMaxVelocityY(150);
         this.acc = -850;
         this.middlePieceSet = false;
+        let hudY = y - 50;
+        if (needBuild) hudY -= 18;
+        this.hud = this.scene.add.text(x - 8, hudY, "", { fontFamily: 'Pixeled' });
+        this.hud.setFontSize(10);
+        if (!needBuild) this.updateHud();
+
+        // Animaciones
+        this.scene.anims.create({
+            key: 'takeoff',
+            frames: this.anims.generateFrameNumbers('shipanimated', { start: 0, end: 1 }),
+            frameRate: 4, // Velocidad de la animación
+            repeat: -1    // Animación en bucle
+        });
     }
     playerCollision() {
         // Si el player lleva una pieza de la nave
@@ -34,15 +47,24 @@ export default class Ship extends Phaser.GameObjects.Sprite {
                 this.setTexture('spaceship');
                 this.y -= 8;
                 this.body.setSize(16, 48);
+                this.updateHud();
             }
         }
         // Si el player lleva fuel
         else if (this.player.isFuelGrabbed()) {
             this.player.dropFuel();
             this.scene.oneFuelReloaded();
+            this.updateHud();
         }
     }
     takeoff() {
         this.body.setAccelerationY(this.acc);
+        this.play('takeoff', true);
+    }
+    updateHud() {
+        this.hud.text = this.scene.getFuelReloaded() + "/" + this.scene.getFuelNeeded();
+    }
+    getX() {
+        return this.x;
     }
 }

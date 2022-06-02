@@ -14,12 +14,14 @@ export default class Level extends Phaser.Scene {
         super({ key: 'level' });
     }
     init(data) {
+        this.levelMngr = data.levelMngr;
         this.fuelNeeded = data.fuelNeeded;
-        this.enemyCooldown = data.meteorCooldown;
+        this.enemyCooldown = data.enemyCooldown;
+        this.enemyType = data.enemyType;
+        this.needBuild = data.needBuild;
         this.score = data.score;
         this.totalScore = data.totalScore;
-        this.playerLives = data.playerLives;
-        this.needBuild = data.needBuild;
+        this.lastLevelPlayerLives = data.playerLives;
     }
     create() {
         this.createPlatforms();
@@ -28,6 +30,7 @@ export default class Level extends Phaser.Scene {
 
         this.enemies = this.physics.add.staticGroup();
         this.lastEnemySpawned = 0; // ms
+        this.fuelReloaded = 0;
         this.ship = new Ship(this, 220, 155, this.player, this.needBuild);
         this.winText = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
         if (this.needBuild) this.spawnShippieces();
@@ -36,7 +39,6 @@ export default class Level extends Phaser.Scene {
             this.onGooditemTaken(); // Spawneamos el primer Gooditem
         }
 
-        this.fuelReloaded = 0;
 
         // Audio
         const config = {
@@ -56,7 +58,7 @@ export default class Level extends Phaser.Scene {
         this.add.image(this.cameras.main.width - 15, 15, 'livesHUD');
         this.livesText = this.add.text(this.cameras.main.width - 28, 10, "", { fontFamily: 'Pixeled' });
         this.livesText.setFontSize(8);
-        this.player.setLives(this.playerLives); // Establecemos las vidas que tenia en el nivel anterior (si venimos del menu ppal no hace nada)
+        this.player.setLives(this.lastLevelPlayerLives); // Establecemos las vidas que tenia en el nivel anterior (si venimos del menu ppal no hace nada)
         this.updateLives(this.player.getLives());
 
         this.scoreText = this.add.text(10, 10, "", { fontFamily: 'Pixeled' });
@@ -67,10 +69,20 @@ export default class Level extends Phaser.Scene {
     }
 
     update() {
-        //this.spawnMeteor();
-        //this.spawnAlien();
-        //this.spawnFighter();
-        this.spawnUfo();
+        switch (this.enemyType) {
+            case 0:
+                this.spawnMeteor();
+                break;
+            case 1:
+                this.spawnAlien();
+                break;
+            case 2:
+                this.spawnFighter();
+                break;
+            case 3:
+                this.spawnUfo();
+                break;
+        }
     }
 
     createPlatforms() {
@@ -94,7 +106,7 @@ export default class Level extends Phaser.Scene {
     }
     playerDied() {
         this.loseSound.play();
-        this.time.delayedCall(1500, this.restartGame, null, this);
+        this.time.delayedCall(1500, this.resetGame, null, this);
     }
     oneFuelReloaded() {
         this.increaseScore(this.fuel.getScoreValue());
@@ -130,19 +142,20 @@ export default class Level extends Phaser.Scene {
             this.lastEnemySpawned = this.time.now;
         }
     }
-    /* meteorDestroyed() {
-        this.meteorSpawned = false;
-        this.lastMeteorSpawned = this.time.now;
-    } */
-    restartGame() {
-        this.scene.start('menu');
+    nextLevel() {
+        this.scene.stop('level');
+        this.levelMngr.nextLevel(this.score, this.totalScore, this.player.getLives());
+    }
+    resetGame() {
+        this.scene.stop('level');
+        this.levelMngr.goToMenu();
     }
     onAllFuelReloaded() {
         this.winText.text = 'Victory';
         this.winSound.play();
         this.player.allFuelReloaded();
         this.ship.takeoff();
-        this.time.delayedCall(1500, this.restartGame, null, this);
+        this.time.delayedCall(1500, this.nextLevel, null, this);
     }
     onPlayerShoot(x, y, isLookingRight) {
         new Bullet(this, x, y, this.platforms, this.enemies, isLookingRight);
@@ -156,11 +169,20 @@ export default class Level extends Phaser.Scene {
     getPlayerInitialY() {
         return this.playerY;
     }
+    getShipX() {
+        return this.ship.getX();
+    }
     getCameraWidth() {
         return this.cameras.main.width;
     }
     getCameraHeight() {
         return this.cameras.main.height;
+    }
+    getFuelReloaded() {
+        return this.fuelReloaded;
+    }
+    getFuelNeeded() {
+        return this.fuelNeeded;
     }
     updateLives(lives) {
         this.livesText.text = lives;

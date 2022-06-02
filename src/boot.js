@@ -14,6 +14,7 @@ export default class Boot extends Phaser.Scene {
         this.load.spritesheet('jetpac', 'jetpac.png', { frameWidth: 17, frameHeight: 24 });
         this.load.spritesheet('meteor', 'meteor.png', { frameWidth: 16, frameHeight: 14 });
         this.load.spritesheet('explosion', 'explosion.png', { frameWidth: 24, frameHeight: 17 });
+        this.load.spritesheet('shipanimated', 'shipanimated.png', { frameWidth: 16, frameHeight: 63 });
         this.load.image('fuel', 'fuel.png');
         this.load.image('spaceship', 'spaceship.png');
         this.load.image('bullet', 'bullet.png');

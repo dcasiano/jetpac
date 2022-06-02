@@ -46,7 +46,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         else if (this.x > this.levelWidth) this.x = 0;
     }
     toDestroy() {
-        //this.scene.meteorDestroyed();
         this.destroy();
     }
     playerHit() {

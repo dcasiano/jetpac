@@ -17,12 +17,12 @@ export default class Alien extends Enemy {
 
         // Animaciones
         this.scene.anims.create({
-            key: 'move',
+            key: 'alienMove',
             frames: this.anims.generateFrameNumbers('meteor', { start: 2, end: 3 }),
             frameRate: 8, // Velocidad de la animación
             repeat: -1    // Animación en bucle
         });
-        this.play('move', true);
+        this.play('alienMove', true);
 
     }
 }

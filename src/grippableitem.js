@@ -22,10 +22,15 @@ export default class Grippableitem extends Phaser.GameObjects.Sprite {
             this.body.allowGravity = false;
         }
     }
-    playerDrop() {
+    playerDrop() { // Suelta el item
         this.isGrabbed = false;
         this.body.allowGravity = true;
         this.body.setVelocity(0, 0);
+
+        // Para que el item no se quede en la misma posicion que la nave y se pueda coger
+        if (Math.abs(this.x - this.scene.getShipX()) < 10) {
+            this.x -= 10;
+        }
     }
     toDestroy() {
         this.destroy();

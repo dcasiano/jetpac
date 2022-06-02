@@ -1,25 +1,33 @@
+import LevelManager from "./levelmanager.js";
 export default class Menu extends Phaser.Scene {
     constructor() {
         super({ key: 'menu' });
+        this.levelMngr = new LevelManager(this);
     }
     create() {
-        let facil = this.add.text(100, 50, "", { fontFamily: 'Pixeled' });
-        facil.text = 'Fácil';
-        facil.setInteractive();
-        facil.on('pointerdown', pointer => {
-            this.scene.start('level', { fuelNeeded: 2, meteorCooldown: 2000, needBuild: true, score: 0, totalScore: 0, playerLives: -1 });
+        let level1 = this.add.text(100, 40, "", { fontFamily: 'Pixeled' });
+        level1.text = 'Level 1';
+        level1.setInteractive();
+        level1.on('pointerdown', pointer => {
+            this.levelMngr.initLevel(1);
         });
-        let intermedio = this.add.text(100, 100, "", { fontFamily: 'Pixeled' });
-        intermedio.text = 'Intermedio';
-        intermedio.setInteractive();
-        intermedio.on('pointerdown', pointer => {
-            this.scene.start('level', { fuelNeeded: 3, meteorCooldown: 1000, needBuild: false, score: 0, totalScore: 0, playerLives: -1 });
+        let level2 = this.add.text(100, 80, "", { fontFamily: 'Pixeled' });
+        level2.text = 'Level 2';
+        level2.setInteractive();
+        level2.on('pointerdown', pointer => {
+            this.levelMngr.initLevel(2);
         });
-        let dificil = this.add.text(100, 150, "", { fontFamily: 'Pixeled' });
-        dificil.text = 'Difícil';
-        dificil.setInteractive();
-        dificil.on('pointerdown', pointer => {
-            this.scene.start('level', { fuelNeeded: 5, meteorCooldown: 500, needBuild: false, score: 0, totalScore: 0, playerLives: -1 });
+        let level3 = this.add.text(100, 120, "", { fontFamily: 'Pixeled' });
+        level3.text = 'Level 3';
+        level3.setInteractive();
+        level3.on('pointerdown', pointer => {
+            this.levelMngr.initLevel(3);
+        });
+        let level4 = this.add.text(100, 160, "", { fontFamily: 'Pixeled' });
+        level4.text = 'Level 4';
+        level4.setInteractive();
+        level4.on('pointerdown', pointer => {
+            this.levelMngr.initLevel(4);
         });
     }
 }
