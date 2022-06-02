@@ -85,7 +85,7 @@ El jugador también podrá recuperar vidas cada vez que alcance una determinada 
 
 El escenario está compuesto por el suelo, un determinado número de plataformas, el cohete y las unidades de Fuel. En ciertos niveles será necesario reconstruir la nave antes de llenar el depósito de combustible, por lo que en estos niveles aparecerán las diferentes partes de la nave. La nave está formada por tres piezas de las cuales, en ciertos niveles, dos de ellas están repartidas por el escenario y han de ser llevadas de vuelta para reconstruir la nave. Hasta que la nave no esté reconstruida no aparecerán unidades de combustible. El jugador debe recoger las piezas en orden, de manera que primero debe recoger la pieza central de la nave y después la superior. Si colisiona con la pieza que no corresponde no pasará nada, pero si colisiona con la correcta la llevará consigo hasta la nave y se colocará.
 
-El jugador colisiona con el suelo y las plataformas, mientras que atraviesa el cohete. Cuando pasa por encima del Fuel, lo agarra y lo lleva consigo, hasta que llega al cohete y desaparece, incrementando en uno las unidades de combustible recargadas. Si no se ha llenado todavía el depósito, aparecerá otra unidad de Fuel en un punto aleatorio del escenario. El Fuel también se ve afectado por la gravedad.
+El jugador colisiona con el suelo, las plataformas y el cohete. Cuando pasa por encima del Fuel, lo agarra y lo lleva consigo, hasta que llega al cohete y desaparece, incrementando en uno las unidades de combustible recargadas. Si no se ha llenado todavía el depósito, aparecerá otra unidad de Fuel en un punto aleatorio del escenario. El Fuel también se ve afectado por la gravedad.
 
 El escenario es horizontalmente toroidal, de manera que cuando el jugador o los enemigos llegan al extremo derecho vuelven a aparecer en el izquierdo, y viceversa. No hay límite superior vertical (el jugador puede salirse por la parte superior del escenario, pero no se le verá en pantalla).
 
@@ -108,7 +108,7 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   El juego tiene una estética pixel art. Se utilizarán los sprites del juego original. Habrá animaciones para las acciones de andar y volar del jugador, para ciertos enemigos, para el vuelo del cohete y para las explosiones, las cuales tendrán lugar cuando el jugador elimine un enemigo.
 
 ##  <a name = "Menús"> 3. Menús y modos de juego</a>
-  El juego consta de un menú principal en el que se muestran los 3 niveles disponibles. Clicando sobre ellos se puede acceder al nivel correspondiente. No obstante, se puede jugar uno después de otro.
+  El juego consta de un menú principal en el que se muestran los 4 niveles disponibles. Clicando sobre ellos se puede acceder al nivel correspondiente. No obstante, se puede jugar uno después de otro.
   
   ###  <a name = "Interfaz"> 3.1 Interfaz y control</a>
   
@@ -167,7 +167,7 @@ La estrategia típica esperada es tratar de recoger y transportar el combustible
   
   El jugador tendrá una puntuación que comenzará en cero y aumentará cada vez que recoga un objeto de puntuación (amuleto, lingote y diamante) y cada vez que se coloca una pieza de la nave (50 puntos) o una unidad de fuel (100 puntos). Cuando se alcanzan los 1000 puntos, se restarán 1000 puntos y se sumará una vida al jugador. Cuando el jugador pasa a un nivel siguiente, mantiene sus puntos del nivel anterior. Cuando se pierde la partida, los puntos se pierden.
   
-  En la parte superior izquierda de la pantalla se mostrarán dos contadores de puntos: uno con la cantidad de puntos actual (al que se le restan puntos cuando se obtiene una vida) y otro con los puntos totales que se han obtenido (nunca se le restan puntos, tan solo sirve para saber los puntos totales que el jugador ha obtenido a lo largo de la partida). También se mostrará un icono con un número que indique las vidas del jugador.
+  En la parte superior izquierda de la pantalla se mostrarán dos contadores de puntos: uno con la cantidad de puntos actual (al que se le restan puntos cuando se obtiene una vida) y otro con los puntos totales que se han obtenido (nunca se le restan puntos, tan solo sirve para saber los puntos totales que el jugador ha obtenido a lo largo de la partida). También se mostrará, en la parte superior derecha, un icono con un número que indique las vidas del jugador.
 
   
   ##  <a name = "Referencias"> 5. Referencias</a>
